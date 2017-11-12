@@ -1,4 +1,5 @@
 from ghost import Ghost, Session
+from ghost.ghost import TimeoutError
 import PySide
 import random
 import string
@@ -92,35 +93,58 @@ agent_list=[
 def MakeRequest():        
     gh=Ghost() 
     ran_str2 = 'User-Agent,Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0;' #.join(random.sample(string.ascii_letters + string.digits, 8)) 
-    se=Session(gh,user_agent=agent_list[random.randint(0,65)],display=False)  
+    se=Session(gh,user_agent=agent_list[random.randint(0,0)],display=False)     
     lastnumber=0
     while True:
         ran_str = ''.join(random.sample(string.ascii_letters + string.digits, 8)) 
         ran_str = ran_str[1:random.randint(1,8)]
         ran_str1 = ''.join(random.sample(string.ascii_letters + string.digits, 8)) 
         ran_str1 = ran_str1[1:random.randint(1,8)]
-        agent = agent_list[random.randint(0,65)]
+        agent = agent_list[random.randint(0,0)]
         print(agent)
-        se.open('https://36kr.com/rank/1/option/81',user_agent=agent,timeout=1000)
+        try:
+            se.open('https://36kr.com/rank/1/option/81',user_agent=agent,timeout=20)
+            pass
+        except TimeoutError as e:
+            print(e,' open error')
+            se.sleep(10)
+            se.show()
+            # os.system('python main.py')
+            continue
+            pass
+
         vote_selector = 'div.support-button'
-        se.wait_for_selector(vote_selector,100)
+
+        try:
+            se.wait_for_selector(vote_selector,10) 
+        except TimeoutError as e:
+            print(e)
+            continue
+            pass
+        
         close_selector='div.kr-rank-modal-inner div.close-icon'
         for i in range(0,20):
             se.fire('div.kr-rank','scroll')    
         se.scroll_to_anchor('a.footer-logo')        
-        se.sleep(3)
+        se.sleep(2)
         se.fire(vote_selector,'mouseover')  
         se.fire(vote_selector,'mousedown')  
         se.click(vote_selector,btn=0)  
         se.fire(vote_selector,'mouseup')  
         se.fire(vote_selector,'mouseleave')       
-        se.sleep(1)
-        se.wait_for_selector('div.vote-desc',100)  
+        se.sleep(3)
+        try:
+            se.wait_for_selector('div.vote-desc',10)  
+        except TimeoutError as e:
+            print(e)
+            continue
+            pass
+        
         d=pq(se.content) 
         number = d('span.number').text()
         print(number)
         if number == lastnumber:
-            se.sleep(random.randint(90,120))
+            se.sleep(random.randint(120,180))
             os.system('python main.py')
             exit()
         # print(se.content) 
