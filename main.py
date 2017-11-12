@@ -103,7 +103,7 @@ def MakeRequest():
         print(agent)
         se.open('https://36kr.com/rank/1/option/81',user_agent=agent,timeout=1000)
         vote_selector = 'div.support-button'
-        se.wait_for_selector(vote_selector,10)
+        se.wait_for_selector(vote_selector,100)
         close_selector='div.kr-rank-modal-inner div.close-icon'
         for i in range(0,20):
             se.fire('div.kr-rank','scroll')    
@@ -115,7 +115,7 @@ def MakeRequest():
         se.fire(vote_selector,'mouseup')  
         se.fire(vote_selector,'mouseleave')       
         se.sleep(1)
-        se.wait_for_selector('div.vote-desc',10)  
+        se.wait_for_selector('div.vote-desc',100)  
         d=pq(se.content) 
         number = d('span.number').text()
         print(number)
