@@ -1,6 +1,9 @@
 from ghost import Ghost, Session
 import PySide
 import random
+import string
+from pyquery import PyQuery as pq
+import os
 
 agent_list=[
 'Mozilla/5.0(Macintosh;U;IntelMacOSX10_6_8;en-us)AppleWebKit/534.50(KHTML,likeGecko)Version/5.1Safari/534.50',
@@ -85,31 +88,47 @@ agent_list=[
 # 'Openwave/UCWEB7.0.2.37/28/999',
 # 'Mozilla/4.0(compatible;MSIE6.0;)Opera/UCWEB7.0.2.37/28/999'
 ]
-print(len(agent_list))
+
 def MakeRequest():        
-    gh=Ghost()
-    se=Session(gh,user_agent='ppp',display=False)
-    nn=0
+    gh=Ghost() 
+    ran_str2 = 'User-Agent,Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0;' #.join(random.sample(string.ascii_letters + string.digits, 8)) 
+    se=Session(gh,user_agent=agent_list[random.randint(0,65)],display=False)  
+    lastnumber=0
     while True:
+        ran_str = ''.join(random.sample(string.ascii_letters + string.digits, 8)) 
+        ran_str = ran_str[1:random.randint(1,8)]
+        ran_str1 = ''.join(random.sample(string.ascii_letters + string.digits, 8)) 
+        ran_str1 = ran_str1[1:random.randint(1,8)]
         agent = agent_list[random.randint(0,65)]
-        se.open('https://36kr.com/rank/1/option/81',user_agent=agent)
+        print(agent)
+        se.open('https://36kr.com/rank/1/option/81',user_agent=agent,timeout=1000)
         vote_selector = 'div.support-button'
         se.wait_for_selector(vote_selector,10)
         close_selector='div.kr-rank-modal-inner div.close-icon'
-        nn+=1
-        print(nn)
-        se.sleep(2)
-        se.click(vote_selector,btn=0)
-        # se.sleep(2)
-        se.wait_for_selector('div.vote-desc',10)
-        se.sleep(2)
-        se.click(close_selector,btn=0)
-        se.sleep(random.randint(1,3))
-        if nn%11==10:
-            se.sleep(random.randint(30,100))       
+        for i in range(0,20):
+            se.fire('div.kr-rank','scroll')    
+        se.scroll_to_anchor('a.footer-logo')        
+        se.sleep(3)
+        se.fire(vote_selector,'mouseover')  
+        se.fire(vote_selector,'mousedown')  
+        se.click(vote_selector,btn=0)  
+        se.fire(vote_selector,'mouseup')  
+        se.fire(vote_selector,'mouseleave')       
+        se.sleep(1)
+        se.wait_for_selector('div.vote-desc',10)  
+        d=pq(se.content) 
+        number = d('span.number').text()
+        print(number)
+        if number == lastnumber:
+            se.sleep(random.randint(90,120))
+            os.system('python main.py')
+            exit()
         # print(se.content) 
+        se.click(close_selector,btn=0)
+        se.sleep(random.randint(4,5))
         se.delete_cookies()
-    del se
+        lastnumber = number
+        # return
 
 def main():
     MakeRequest()
