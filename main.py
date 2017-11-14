@@ -119,7 +119,11 @@ def MakeRequest():
         # ran_str = ran_str[1:random.randint(1,8)]
         # ran_str1 = ''.join(random.sample(string.ascii_letters + string.digits, 8)) 
         # ran_str1 = ran_str1[1:random.randint(1,8)]
-        ip = get_nextip(sip)
+        try:
+            ip = get_nextip(sip)
+            print(ip)
+        except Exception:
+            pass
         se.set_proxy('https', ip.get('ip'), ip.get('port'))
         for x in range(0,3):            
             agent = agent_list[random.randint(0,65)]
@@ -147,7 +151,7 @@ def MakeRequest():
             close_selector='div.kr-rank-modal-inner div.close-icon'
             for i in range(0,20):
                 se.fire('div.kr-rank','scroll')    
-            se.scroll_to_anchor('a.footer-logo')        
+            # se.scroll_to_anchor('a.footer-logo')        
             se.sleep(2)
             se.fire(vote_selector,'mouseover')  
             se.fire(vote_selector,'mousedown')  
