@@ -41,7 +41,7 @@ def get_nextip(sip):
 def MakeRequest():        
     gh=Ghost() 
     ran_str2 = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/62.0.3202.89 Chrome/62.0.3202.89 Safari/537.36' #.join(random.sample(string.ascii_letters + string.digits, 8)) 
-    se=gh.start(display=True)   #Session(gh,user_agent=ran_str2,display=False)  
+    se=gh.start(display=False)   #Session(gh,user_agent=ran_str2,display=False)  
     sip = gh.start()
     lastnumber=0
     while True:        
@@ -49,17 +49,17 @@ def MakeRequest():
         # ran_str = ran_str[1:random.randint(1,8)]
         # ran_str1 = ''.join(random.sample(string.ascii_letters + string.digits, 8)) 
         # ran_str1 = ran_str1[1:random.randint(1,8)]  
-        try:
-            ip = get_nextip(sip)
-            print '\n the new ip is: ',ip
-        except Exception:
-            pass
+        # try:
+        #     ip = get_nextip(sip)
+        #     print '\n the new ip is: ',ip
+        # except Exception:
+        #     pass
         # se.set_proxy('https', ip.get('ip'), ip.get('port'))
         agent = agent_list[random.randint(0,4)]
-        for x in range(0,45): 
+        for x in range(0,3): 
             # print(agent)
             try:
-                se.open('https://36kr.com/rank/1/option/81',user_agent=agent,timeout=50)
+                se.open('https://36kr.com/rank/1',user_agent=agent,timeout=50)
                 pass
             except TimeoutError as e:
                 print(e,' open error')
@@ -69,20 +69,21 @@ def MakeRequest():
             except Exception:
                 pass
 
-            vote_selector = 'div.support-button'
+            vote_selector = 'li.vote-list-item:nth-child(19) div.support-button'
             # print(se.content)
             # se.show()
-            se.sleep(5)
+            se.sleep(3)
             try:
                 se.wait_for_selector(vote_selector,30) 
             except TimeoutError as e:
                 print(e)
                 continue
                 pass
-            d=pq(se.content)             
+            d=pq(se.content)  
+            d=d('li.vote-list-item').eq(18)
             print('here load the page, original tickets is: ', d('span.number').text())
             # se.sleep(1)
-            close_selector='div.kr-rank-modal-inner div.close-icon'
+            close_selector='div.close-icon'
             se.fire(vote_selector,'mouseover')  
             se.fire(vote_selector,'mousedown')  
             se.click(vote_selector,btn=0)  
@@ -96,7 +97,8 @@ def MakeRequest():
                 continue
                 pass
             
-            d=pq(se.content) 
+            d=pq(se.content)  
+            d=d('li.vote-list-item').eq(18)
             number = d('span.number').text()
             print('after we vote, the ticket is: ',number)
             if lastnumber == number:
@@ -104,7 +106,8 @@ def MakeRequest():
                 se.sleep(15)
             se.click(close_selector,btn=0)            
             se.delete_cookies()
-            lastnumber = number            
+            lastnumber = number 
+        se.sleep(random.randint(10,300))           
 
 def main():
     MakeRequest()
