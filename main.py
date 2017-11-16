@@ -7,127 +7,57 @@ from pyquery import PyQuery as pq
 import os
 import json
 
-agent_list=[
-'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
-'Mozilla/5.0(Windows;U;WindowsNT6.1;en-us)AppleWebKit/534.50(KHTML,likeGecko)Version/5.1Safari/534.50',
-'Mozilla/5.0(compatible;MSIE9.0;WindowsNT6.1;Trident/5.0',
-'Mozilla/4.0(compatible;MSIE8.0;WindowsNT6.0;Trident/4.0)',
-'Mozilla/4.0(compatible;MSIE7.0;WindowsNT6.0)',
-'Mozilla/4.0(compatible;MSIE6.0;WindowsNT5.1)',
-'Mozilla/5.0 (Windows; U; Windows NT 5.2) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.2.149.27 Safari/525.13 ',
-'Mozilla/5.0 (Windows; U; Windows NT 5.2) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/19.149.27 Safari/525.13 ',
-'Mozilla/5.0 (Windows; U; Windows NT 5.2) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/29.149.27 Safari/525.13 ',
-'Mozilla/5.0 (Windows; U; Windows NT 5.2) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/30.149.27 Safari/525.13 ',
-'Mozilla/5.0 (Windows; U; Windows NT 5.2) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/39.149.27 Safari/525.13 ',
-'Mozilla/5.0 (Windows; U; Windows NT 5.2) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/39.0.27 Safari/525.13 ',
-'Mozilla/5.0 (Windows; U; Windows NT 5.2) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/39.222.27 Safari/525.13 ',
-'Mozilla/5.0 (Windows; U; Windows NT 5.2) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/40.149.27 Safari/525.13 ',
-'Mozilla/5.0 (Windows; U; Windows NT 5.2) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/41.149.27 Safari/525.13 ',
-'Mozilla/5.0 (Windows; U; Windows NT 5.2) Gecko/2008070208 Firefox/3.0.1',
-'Mozilla/5.0 (Windows; U; Windows NT 5.1) Gecko/20070309 Firefox/2.0.0.3',
-'Mozilla/5.0(Macintosh;IntelMacOSX10.6;rv:2.0.1)Gecko/20100101Firefox/4.0.1',
-'Mozilla/5.0(WindowsNT6.1;rv:2.0.1)Gecko/20100101Firefox/4.0.1',
-'Opera/9.80(Macintosh;IntelMacOSX10.6.8;U;en)Presto/2.8.131Version/11.11',
-'Opera/9.80(WindowsNT6.1;U;en)Presto/2.8.131Version/11.11',
-'Opera/10.80(Macintosh;IntelMacOSX10.6.8;U;en)Presto/2.8.131Version/11.11',
-'Opera/10.80(WindowsNT6.1;U;en)Presto/2.8.131Version/11.11',
-'Opera/11.80(Macintosh;IntelMacOSX10.6.8;U;en)Presto/2.8.131Version/11.11',
-'Opera/11.80(WindowsNT6.1;U;en)Presto/2.8.131Version/11.11',
-'Mozilla/5.0(Macintosh;IntelMacOSX10_7_0)AppleWebKit/535.11(KHTML,likeGecko)Chrome/17.0.963.56Safari/535.11',
-'Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1;Maxthon2.0)',
-'Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1;TencentTraveler4.0)',
-'Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1)',
-'Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1;TheWorld)',
-'Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1;Trident/4.0;SE2.XMetaSr1.0;SE2.XMetaSr1.0;.NETCLR2.0.50727;SE2.XMetaSr1.0)',
-'Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1;360SE)',
-'Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1;AvantBrowser)',
-'Mozilla/5.0(compatible;MSIE8.0;WindowsNT5.1)',
-'Mozilla/5.0(compatible;MSIE8.0;WindowsNT5.1;Maxthon2.0)',
-'Mozilla/5.0(compatible;MSIE8.0;WindowsNT5.1;TencentTraveler5.0)',
-'Mozilla/5.0(compatible;MSIE8.0;WindowsNT5.1)',
-'Mozilla/5.0(compatible;MSIE8.0;WindowsNT5.1;TheWorld)',
-'Mozilla/5.0(compatible;MSIE8.0;WindowsNT5.1;Trident/5.0;SE2.XMetaSr1.0;SE2.XMetaSr1.0;.NETCLR2.0.50727;SE2.XMetaSr1.0)',
-'Mozilla/5.0(compatible;MSIE8.0;WindowsNT5.1;360SE)',
-'Mozilla/5.0(compatible;MSIE9.0;WindowsNT5.1;AvantBrowser)',
-'Mozilla/5.0(compatible;MSIE9.0;WindowsNT5.1)',
-'Mozilla/5.0(compatible;MSIE9.0;WindowsNT5.1;Maxthon2.0)',
-'Mozilla/5.0(compatible;MSIE9.0;WindowsNT5.1;TencentTraveler5.0)',
-'Mozilla/5.0(compatible;MSIE9.0;WindowsNT5.1)',
-'Mozilla/5.0(compatible;MSIE9.0;WindowsNT5.1;TheWorld)',
-'Mozilla/5.0(compatible;MSIE10.0;WindowsNT5.1;Trident/5.0;SE2.XMetaSr1.0;SE2.XMetaSr1.0;.NETCLR2.0.50727;SE2.XMetaSr1.0)',
-'Mozilla/5.0(compatible;MSIE10.0;WindowsNT5.1;360SE)',
-'Mozilla/5.0(compatible;MSIE10.0;WindowsNT5.1;AvantBrowser)',
-'Mozilla/5.0(compatible;MSIE10.0;WindowsNT5.1)',
-'Mozilla/5.0(compatible;MSIE10.0;WindowsNT5.1)',
-'Mozilla/5.0(compatible;MSIE10.0;WindowsNT5.1;Maxthon2.0)',
-'Mozilla/5.0(compatible;MSIE10.0;WindowsNT5.1;TencentTraveler5.0)',
-'Mozilla/5.0(compatible;MSIE11.0;WindowsNT5.1)',
-'Mozilla/5.0(compatible;MSIE11.0;WindowsNT5.1;TheWorld)',
-'Mozilla/5.0(compatible;MSIE11.0;WindowsNT5.1;Trident/5.0;SE2.XMetaSr1.0;SE2.XMetaSr1.0;.NETCLR2.0.50727;SE2.XMetaSr1.0)',
-'Mozilla/5.0(compatible;MSIE11.0;WindowsNT5.1;360SE)',
-'Mozilla/5.0(compatible;MSIE11.0;WindowsNT5.1;AvantBrowser)',
-'Mozilla/5.0(compatible;MSIE11.0;WindowsNT5.2)',
-'Mozilla/5.0(compatible;MSIE12.0;WindowsNT5.1;Maxthon2.0)',
-'Mozilla/5.0(compatible;MSIE12.0;WindowsNT5.1;TencentTraveler5.0)',
-'Mozilla/5.0(compatible;MSIE12.0;WindowsNT5.1)',
-'Mozilla/5.0(compatible;MSIE12.0;WindowsNT5.1;TheWorld)',
-'Mozilla/5.0(compatible;MSIE12.0;WindowsNT5.1;Trident/5.0;SE2.XMetaSr1.0;SE2.XMetaSr1.0;.NETCLR2.0.50727;SE2.XMetaSr1.0)',
-'Mozilla/5.0(compatible;MSIE12.0;WindowsNT5.1;360SE)',
-'Mozilla/5.0(compatible;MSIE12.0;WindowsNT5.1;AvantBrowser)'
-# 'Mozilla/5.0(iPhone;U;CPUiPhoneOS4_3_3likeMacOSX;en-us)AppleWebKit/533.17.9(KHTML,likeGecko)Version/5.0.2Mobile/8J2Safari/6533.18.5',
-# 'Mozilla/5.0(iPod;U;CPUiPhoneOS4_3_3likeMacOSX;en-us)AppleWebKit/533.17.9(KHTML,likeGecko)Version/5.0.2Mobile/8J2Safari/6533.18.5',
-# 'Mozilla/5.0(iPad;U;CPUOS4_3_3likeMacOSX;en-us)AppleWebKit/533.17.9(KHTML,likeGecko)Version/5.0.2Mobile/8J2Safari/6533.18.5',
-# 'Mozilla/5.0(Linux;U;Android2.3.7;en-us;NexusOneBuild/FRF91)AppleWebKit/533.1(KHTML,likeGecko)Version/4.0MobileSafari/533.1',
-# 'MQQBrowser/26Mozilla/5.0(Linux;U;Android2.3.7;zh-cn;MB200Build/GRJ22;CyanogenMod-7)AppleWebKit/533.1(KHTML,likeGecko)Version/4.0MobileSafari/533.1',
-# 'Opera/9.80(Android2.3.4;Linux;OperaMobi/build-1107180945;U;en-GB)Presto/2.8.149Version/11.10',
-# 'Mozilla/5.0(Linux;U;Android3.0;en-us;XoomBuild/HRI39)AppleWebKit/534.13(KHTML,likeGecko)Version/4.0Safari/534.13',
-# 'Mozilla/5.0(BlackBerry;U;BlackBerry9800;en)AppleWebKit/534.1+(KHTML,likeGecko)Version/6.0.0.337MobileSafari/534.1+',
-# 'Mozilla/5.0(hp-tablet;Linux;hpwOS/3.0.0;U;en-US)AppleWebKit/534.6(KHTML,likeGecko)wOSBrowser/233.70Safari/534.6TouchPad/1.0',
-# 'Mozilla/5.0(SymbianOS/9.4;Series60/5.0NokiaN97-1/20.0.019;Profile/MIDP-2.1Configuration/CLDC-1.1)AppleWebKit/525(KHTML,likeGecko)BrowserNG/7.1.18124',
-# 'Mozilla/5.0(compatible;MSIE9.0;WindowsPhoneOS7.5;Trident/5.0;IEMobile/9.0;HTC;Titan)',
-# 'UCWEB7.0.2.37/28/999',
-# 'NOKIA5700/UCWEB7.0.2.37/28/999',
-# 'Openwave/UCWEB7.0.2.37/28/999',
-# 'Mozilla/4.0(compatible;MSIE6.0;)Opera/UCWEB7.0.2.37/28/999'
+
+agent_list = [
+'Mozilla/5.0 (Linux; U; Android 2.3.6; zh-cn; GT-S5660 Build/GINGERBREAD) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1 MicroMessenger/4.5.255',
+'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/62.0.3202.89 Chrome/62.0.3202.89 Safari/537.36',
+'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50',
+'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50',
+'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:56.0) Gecko/20100101 Firefox/56.0'
 ]
 
 def getip(sip):
-    sip.open('http://ip.42.pl/raw')
+    sip.open('http://2017.ip138.com/ic.asp')
     dd=pq(sip.content)
-    return dd('body').text()
+    dd=dd('center').text().split('[')[1].split(']')[0]
+    print('my ip is: ', dd)
+    return dd
 def get_nextip(sip):
     sip.open('http://webapi.http.zhimacangku.com/getip?num=1&type=2&pro=0&city=0&yys=0&port=11&time=1&ts=0&ys=0&cs=0&lb=1&sb=0&pb=45&mr=2&regions=')
     d=pq(sip.content)
+    # print('getting the ip.',sip.content)
     j=d('body').text()
     j=json.loads(j)
     out = ''
+    # print('the ip: ',j)
     if not j.get('success'):
-        sip.open('web.http.cnapi.cc/index/index/save_white?neek=30958&appkey=32832ae46c07f3e82882c419abcddb66&white='+getip(sip))
+        sip.open('http://web.http.cnapi.cc/index/index/save_white?neek=30958&appkey=32832ae46c07f3e82882c419abcddb66&white='+getip(sip))
+        sip.sleep(10)
         out=get_nextip(sip)
     else:
-        out=j.get('data')[0]
+        out=j.get('data')[0]    
     return out
 
 def MakeRequest():        
     gh=Ghost() 
-    ran_str2 = 'User-Agent,Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0;' #.join(random.sample(string.ascii_letters + string.digits, 8)) 
-    se=gh.start()  #Session(gh,user_agent=agent_list[random.randint(0,0)],display=False)  
+    ran_str2 = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/62.0.3202.89 Chrome/62.0.3202.89 Safari/537.36' #.join(random.sample(string.ascii_letters + string.digits, 8)) 
+    se=gh.start(display=True)   #Session(gh,user_agent=ran_str2,display=False)  
     sip = gh.start()
     lastnumber=0
     while True:        
         # ran_str = ''.join(random.sample(string.ascii_letters + string.digits, 8)) 
         # ran_str = ran_str[1:random.randint(1,8)]
         # ran_str1 = ''.join(random.sample(string.ascii_letters + string.digits, 8)) 
-        # ran_str1 = ran_str1[1:random.randint(1,8)]
+        # ran_str1 = ran_str1[1:random.randint(1,8)]  
         try:
             ip = get_nextip(sip)
-            print(ip)
+            print '\n the new ip is: ',ip
         except Exception:
             pass
-        se.set_proxy('https', ip.get('ip'), ip.get('port'))
-        for x in range(0,3):            
-            agent = agent_list[random.randint(0,65)]
-            print(agent)
+        # se.set_proxy('https', ip.get('ip'), ip.get('port'))
+        agent = agent_list[random.randint(0,4)]
+        for x in range(0,45): 
+            # print(agent)
             try:
                 se.open('https://36kr.com/rank/1/option/81',user_agent=agent,timeout=50)
                 pass
@@ -140,19 +70,19 @@ def MakeRequest():
                 pass
 
             vote_selector = 'div.support-button'
-
+            # print(se.content)
+            # se.show()
+            se.sleep(5)
             try:
-                se.wait_for_selector(vote_selector,10) 
+                se.wait_for_selector(vote_selector,30) 
             except TimeoutError as e:
                 print(e)
                 continue
                 pass
-            
+            d=pq(se.content)             
+            print('here load the page, original tickets is: ', d('span.number').text())
+            # se.sleep(1)
             close_selector='div.kr-rank-modal-inner div.close-icon'
-            for i in range(0,20):
-                se.fire('div.kr-rank','scroll')    
-            # se.scroll_to_anchor('a.footer-logo')        
-            se.sleep(2)
             se.fire(vote_selector,'mouseover')  
             se.fire(vote_selector,'mousedown')  
             se.click(vote_selector,btn=0)  
@@ -168,17 +98,13 @@ def MakeRequest():
             
             d=pq(se.content) 
             number = d('span.number').text()
-            print(number)
-            # if number == lastnumber:
-            #     se.sleep(random.randint(120,180))
-            #     os.system('python main.py')
-            #     exit()
-            # # print(se.content) 
-            se.click(close_selector,btn=0)
-            se.sleep(random.randint(4,5))
+            print('after we vote, the ticket is: ',number)
+            if lastnumber == number:
+                print 'the vote stuck, it will sleep for 15s.'
+                se.sleep(15)
+            se.click(close_selector,btn=0)            
             se.delete_cookies()
-            lastnumber = number
-            # return
+            lastnumber = number            
 
 def main():
     MakeRequest()

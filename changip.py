@@ -17,7 +17,7 @@ while True:
     se.click('#disconnect',btn=0)
     se.sleep(3)
     se.click('#save',btn=0)
-    se.sleep(600)
+    se.sleep(500)
 
 
 
