@@ -23,7 +23,7 @@ def getip(sip):
     print('my ip is: ', dd)
     return dd
 def get_nextip(sip):
-    sip.open('http://webapi.http.zhimacangku.com/getip?num=1&type=2&pro=0&city=0&yys=0&port=11&time=1&ts=0&ys=0&cs=0&lb=1&sb=0&pb=45&mr=2&regions=')
+    sip.open('http://webapi.http.zhimacangku.com/getip?num=1&type=2&pro=&city=0&yys=0&port=11&time=1&ts=0&ys=0&cs=0&lb=1&sb=0&pb=4&mr=2&regions=')
     d=pq(sip.content)
     # print('getting the ip.',sip.content)
     j=d('body').text()
@@ -45,18 +45,18 @@ def MakeRequest():
     sip = gh.start()
     lastnumber=0
     while True:        
-        # ran_str = ''.join(random.sample(string.ascii_letters + string.digits, 8)) 
-        # ran_str = ran_str[1:random.randint(1,8)]
-        # ran_str1 = ''.join(random.sample(string.ascii_letters + string.digits, 8)) 
-        # ran_str1 = ran_str1[1:random.randint(1,8)]  
-        # try:
-        #     ip = get_nextip(sip)
-        #     print '\n the new ip is: ',ip
-        # except Exception:
-        #     pass
-        # se.set_proxy('https', ip.get('ip'), ip.get('port'))
+        ran_str = ''.join(random.sample(string.ascii_letters + string.digits, 8)) 
+        ran_str = ran_str[1:random.randint(1,8)]
+        ran_str1 = ''.join(random.sample(string.ascii_letters + string.digits, 8)) 
+        ran_str1 = ran_str1[1:random.randint(1,8)]  
+        try:
+            ip = get_nextip(sip)
+            print '\n the new ip is: ',ip
+        except Exception:
+            pass
+        se.set_proxy('https', ip.get('ip'), ip.get('port'))
         agent = agent_list[random.randint(0,4)]
-        for x in range(0,3): 
+        for x in range(0,15): 
             # print(agent)
             try:
                 se.open('https://36kr.com/rank/1',user_agent=agent,timeout=50)
