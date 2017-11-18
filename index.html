@@ -2,7 +2,16 @@
     <head>
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
         <script type="text/javascript">
-            var xmlHttp;             
+            var xmlHttp;  
+            function GetXmlHttpObject(){ 
+                if (window.XMLHttpRequest){ 
+                // code for IE7+, Firefox, Chrome, Opera, Safari 
+                    xmlhttp=new XMLHttpRequest(); 
+                }else{// code for IE6, IE5 
+                    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); 
+                } 
+                return xmlhttp; 
+            }            
             // -----------ajax方法-----------// 
             function Vote(){ 
             　　xmlHttp=GetXmlHttpObject(); 
