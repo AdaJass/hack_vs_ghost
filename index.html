@@ -2,21 +2,33 @@
     <head>
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
         <script type="text/javascript">
-            one=function()
-            {
-                ifrmid.window.location.reload();
+            var xmlHttp;             
+            // -----------ajax方法-----------// 
+            function Vote(){ 
+            　　xmlHttp=GetXmlHttpObject(); 
+            　　if (xmlHttp==null){ 
+            　　　　alert('您的浏览器不支持AJAX！'); 
+            　　　　return; 
+            　　} 
+            　　
+            　　var url="http://www.xfz.cn/api/website/explore/vote4/investor/1/vote/"; 
+            　　xmlHttp.open("GET",url,true); 
+            　　xmlHttp.onreadystatechange=getOkGet;//发送事件后，收到信息了调用函数 
+            　　xmlHttp.send(); 
             }
-            setInterval("one()",60000);
+            function getOkGet(){ 
+            　　if(xmlHttp.readyState==1||xmlHttp.readyState==2||xmlHttp.readyState==3){ 
+            　　　　document.write('loading...');
+            　　} 
+            　　if (xmlHttp.readyState==4 && xmlHttp.status==200){ 
+            　　　　var d= xmlHttp.responseText; 
+            　　　　document.write(d); 
+            　　} 
+            } 
+            setInterval(Vote,60000);
         </script>
     </head>
     <body>
-        <frameset>
-                <iframe name='jr' width="100%" id="jr" height="500" src="http://www.xfz.cn/api/website/explore/vote4/investor/1/vote/"></iframe>
-                <!-- <iframe name='jr' src="http://www.xfz.cn/api/website/explore/vote4/investor/1/vote/"></iframe>
-                <iframe name='jr' src="http://www.xfz.cn/api/website/explore/vote4/investor/1/vote/"></iframe>
-                <iframe name='jr' src="http://www.xfz.cn/api/website/explore/vote4/investor/1/vote/"></iframe> -->
-
-        </frameset>
         
 
     </body>
